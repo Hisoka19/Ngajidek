@@ -8,13 +8,22 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RoleMiddleware
 {
-    public function handle(Request $request, Closure $next, string $role): Response
-    {
-        // Pastikan user sudah login dan memiliki role yang sesuai dari Spatie
-        if (!auth()->check() || !auth()->user()->hasRole($role)) {
-            abort(403, 'Akses ditolak.');
-        }
-
-        return $next($request);
+public function handle($request, Closure $next, $role)
+{
+    if (!auth()->check()) {
+        \Log::info('User not authenticated');
+        abort(403);
     }
+
+    if (!auth()->user()->hasAnyRole(explode('|', $role))) {
+        \Log::info('User does not have required role', [
+            'user_id' => auth()->id(),
+            'roles' => auth()->user()->getRoleNames(),
+            'required_role' => $role,
+        ]);
+        abort(403);
+    }
+
+    return $next($request);
+}
 }

@@ -22,12 +22,13 @@ class RedirectIfAuthenticated
             if (Auth::guard($guard)->check()) {
                 $user = Auth::guard($guard)->user();
 
-                if ($user->role == 'admin') {
-                    return redirect('/admin/dashboard');
-                } elseif ($user->role == 'pengajar') {
+                // Pastikan rute pengalihan sesuai untuk setiap role
+                if ($user->hasRole('admin')) {
+                    return redirect('/admin');
+                } elseif ($user->hasRole('pengajar')) {
                     return redirect('/pengajar/dashboard');
-                } else {
-                    return redirect('/user/dashboard');
+                } elseif ($user->hasRole('siswa')) {
+                    return redirect('/siswa/dashboard');
                 }
             }
         }

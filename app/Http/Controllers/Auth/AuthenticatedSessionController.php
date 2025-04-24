@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,28 +22,23 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-public function store(LoginRequest $request): RedirectResponse
-{
-    $request->authenticate();
-    $request->session()->regenerate();
+    public function store(LoginRequest $request): RedirectResponse
+    {
+        $request->authenticate();
+        $request->session()->regenerate();
 
-    // Ambil pengguna yang sedang login
-    $user = Auth::user();
+        $user = Auth::user();
 
-    // Redirect berdasarkan peran pengguna
-    if ($user->hasRole('admin')) {
-        return redirect()->route('admin.dashboard');
-    } elseif ($user->hasRole('pengajar')) {
-        return redirect()->route('pengajar.dashboard');
-    } elseif ($user->hasRole('siswa')) {
-        return redirect()->route('siswa.dashboard');
+        // Redirect berdasarkan peran pengguna
+        if ($user->hasRole('admin')) {
+            return redirect('/admin'); // Filament admin dashboard
+        } elseif ($user->hasRole('siswa')) {
+            return redirect()->route('siswa.dashboard'); // Siswa dashboard
+        }
+
+        // Redirect default jika peran tidak cocok
+        return redirect()->route('home');
     }
-
-    // Jika tidak ada peran yang cocok, arahkan ke halaman default
-    return redirect()->route('home');
-}
-
-
 
     /**
      * Destroy an authenticated session.
@@ -54,7 +48,6 @@ public function store(LoginRequest $request): RedirectResponse
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');

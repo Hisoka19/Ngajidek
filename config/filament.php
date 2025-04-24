@@ -2,34 +2,29 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Broadcasting
-    |--------------------------------------------------------------------------
-    |
-    | By uncommenting the Laravel Echo configuration, you may connect Filament
-    | to any Pusher-compatible websockets server.
-    |
-    | This will allow your users to receive real-time notifications.
-    |
-    */
-
-'auth' => [
-    'guard' => env('FILAMENT_AUTH_GUARD', 'web'), // Sesuaikan dengan guard yang digunakan
-    'pages' => [
-        'login' => \Filament\Http\Livewire\Auth\Login::class,
+    'auth' => [
+        'guard' => 'web', // Guard yang digunakan
     ],
-],
 
+    'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+    ],
 
+    'pages' => [
+        'login' => \Filament\Http\Livewire\Auth\Login::class, // Halaman login Filament
+    ],
+
+    'path' => 'admin', // Path untuk dashboard admin
 
     'panels' => [
-        App\Providers\AdminPanelProvider::class,
-        App\Providers\PengajarPanelProvider::class, // Tambahkan ini
+        App\Providers\Filament\AdminPanelProvider::class, // Provider panel admin
     ],
 
     'broadcasting' => [
-
+        // Uncomment jika ingin menggunakan Pusher atau layanan broadcasting lainnya
         // 'echo' => [
         //     'broadcaster' => 'pusher',
         //     'key' => env('VITE_PUSHER_APP_KEY'),
@@ -42,61 +37,13 @@ return [
         //     'encrypted' => true,
         //     'forceTLS' => true,
         // ],
-
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Default Filesystem Disk
-    |--------------------------------------------------------------------------
-    |
-    | This is the storage disk Filament will use to store files. You may use
-    | any of the disks defined in the `config/filesystems.php`.
-    |
-    */
 
     'default_filesystem_disk' => env('FILAMENT_FILESYSTEM_DISK', 'public'),
 
-    /*
-    |--------------------------------------------------------------------------
-    | Assets Path
-    |--------------------------------------------------------------------------
-    |
-    | This is the directory where Filament's assets will be published to. It
-    | is relative to the `public` directory of your Laravel application.
-    |
-    | After changing the path, you should run `php artisan filament:assets`.
-    |
-    */
-
     'assets_path' => null,
 
-    /*
-    |--------------------------------------------------------------------------
-    | Cache Path
-    |--------------------------------------------------------------------------
-    |
-    | This is the directory that Filament will use to store cache files that
-    | are used to optimize the registration of components.
-    |
-    | After changing the path, you should run `php artisan filament:cache-components`.
-    |
-    */
-
     'cache_path' => base_path('bootstrap/cache/filament'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Livewire Loading Delay
-    |--------------------------------------------------------------------------
-    |
-    | This sets the delay before loading indicators appear.
-    |
-    | Setting this to 'none' makes indicators appear immediately, which can be
-    | desirable for high-latency connections. Setting it to 'default' applies
-    | Livewire's standard 200ms delay.
-    |
-    */
 
     'livewire_loading_delay' => 'default',
 
