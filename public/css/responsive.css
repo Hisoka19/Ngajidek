@@ -1,0 +1,128 @@
+/* General Styles for Mobile First */
+body {
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Media Queries for Larger Screens */
+@media (min-width: 500px) {
+    header.header .text h3 {
+        font-size: 24px;
+        line-height: 30px;
+    }
+    header.header .text h6 {
+        font-size: 16px;
+        line-height: 25px;
+    }
+}
+
+@media (max-width: 767px) {
+    header.header .logo {
+        margin-bottom: 20px;
+    }
+    header.header .menu ul.nav.navbar-nav {
+        float: none;
+    }
+    header.header .text h3 {
+        font-size: 40px;
+        line-height: 50px;
+    }
+    header.header .header_video {
+        margin: 150px auto 0;
+        max-width: 500px;
+    }
+    section .text > p {
+        padding: 0 20px;
+    }
+    footer.footer .footer-logo img {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 1180px) {
+    header.header .text h3 {
+        font-size: 45px;
+        line-height: 50px;
+    }
+}
+
+@media (min-width: 1180px) and (max-width: 1399px) {
+    header.header .text h3 {
+        font-size: 45px;
+        letter-spacing: 0;
+        line-height: 50px;
+    }
+}
+
+@media (min-width: 1400px) and (max-width: 1500px) {
+    .verticalCarouselGroup.vc_list > li .vertical_text p {
+        height: 75px;
+        line-height: 25px;
+        overflow: hidden;
+    }
+}
+
+/* Specific Styles for Project Section */
+.project .text h2 {
+    font-size: 35px;
+}
+
+.project .text h4 {
+    font-size: 20px;
+}
+
+/* Adjustments for Customer Area */
+.customer_area .customer_say h3 {
+    font-size: 25px;
+    line-height: 28px;
+    margin-bottom: 13px;
+}
+
+/* Footer Styles */
+footer.footer .footer_last_menu ul li {
+    padding: 7px;
+}
+
+footer.footer .footer_last_menu ul li a {
+    font-size: 10px;
+}
+
+footer.footer .footer_first_menu ul li {
+    margin-right: 12px;
+}
+
+footer.footer .footer_first_menu ul li a {
+    font-size: 13px;
+}
+
+/* Adjustments for Vertical Carousel */
+.verticalCarouselGroup.vc_list > li .vertical_text p {
+    height: auto;
+    overflow: auto;
+    padding-right: 20px;
+}
+
+.vertical_main i {
+    margin-left: 0;
+}
+
+/* Adjustments for Image and Icon Sizes */
+.img-responsive {
+    max-width: 100%; /* Ensures the image does not exceed its container's width */
+    height: auto; /* Maintains the aspect ratio */
+    display: block; /* Ensures the image behaves like a block element */
+    margin: 0 auto; /* Centers the image horizontally */
+}
+
+/* Additional Styles for Flexbox and Alignment */
+.d-flex {
+    display: flex;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+/* Hide elements on smaller screens if necessary */
+@media (max-width: 500px) {
+    /* Add any specific styles for very small screens here */
+}
