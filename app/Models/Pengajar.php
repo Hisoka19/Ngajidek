@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Foundation\Auth\User as Authenticatable; // Ubah dari Model ke Authenticatable
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -15,7 +16,11 @@ class Pengajar extends Authenticatable // Ubah dari Model ke Authenticatable
     protected $guard = 'pengajar';
 
     protected $fillable = [
-        'name', 'email', 'password', 'no_hp', 'alamat', // Sesuaikan dengan kolom di database
+        'name',
+        'email',
+        'password',
+        'no_hp',
+        'alamat', // Sesuaikan dengan kolom di database
     ];
 
     protected $hidden = [

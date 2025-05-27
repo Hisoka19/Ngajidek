@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -19,17 +20,26 @@ class LoginController extends Controller
             'password' => 'required|min:6',
         ]);
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+        // Coba login sebagai user
+        if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password])) {
             $request->session()->regenerate();
 
-            return redirect()->intended($this->redirectPath());
+            $user = Auth::guard('web')->user();
+            if ($user->hasRole('admin')) {
+                return redirect('/admin/dashboard');
+            } elseif ($user->hasRole('siswa')) {
+                return redirect('/siswa/dashboard');
+            } elseif ($user->hasRole('pengajar')) {
+                return redirect('/pengajar/dashboard');
+            }
+
+            return redirect('/user/');
         }
 
         return back()->withErrors([
             'email' => 'Email atau password salah.',
         ]);
     }
-
     protected function redirectPath()
     {
         if (auth()->user()->role == 'admin') {
@@ -47,6 +57,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect('/');
     }
 }

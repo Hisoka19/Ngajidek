@@ -4,6 +4,11 @@ return [
 
     'auth' => [
         'guard' => 'web', // Guard yang digunakan
+        'middleware' => [
+            'auth',
+            \Filament\Http\Middleware\Authenticate::class,
+            // Optional: Custom role middleware
+        ],
     ],
 
     'guards' => [
@@ -21,6 +26,7 @@ return [
 
     'panels' => [
         App\Providers\Filament\AdminPanelProvider::class, // Provider panel admin
+        \App\Providers\Filament\PengajarPanelProvider::class,
     ],
 
     'broadcasting' => [

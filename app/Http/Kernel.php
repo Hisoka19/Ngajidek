@@ -76,7 +76,7 @@ class Kernel extends HttpKernel
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.pengajar' => \App\Http\Middleware\RedirectIfNotPengajar::class,
         'pengajar' => \App\Http\Middleware\EnsureIsPengajar::class,
-        'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
+        'role' => \App\Http\Middleware\RoleMiddleware::class,
         'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
        // 'filament' => \Filament\Http\Middleware\Authenticate::class,

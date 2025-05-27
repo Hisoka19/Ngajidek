@@ -2,13 +2,13 @@
 
 namespace App\Filament\Pengajar\Pages;
 
-use Filament\Pages\Page;
+use Filament\Pages\Dashboard as BaseDashboard;
 
-class Dashboard extends Page
+class Dashboard extends BaseDashboard
 {
     protected static ?string $navigationIcon = 'heroicon-o-home';
 
-    protected static string $view = 'filament.pengajar.pages.dashboard';
+    protected static string $view = 'filament.admin.pages.dashboard';
 
     public static function getNavigationLabel(): string
     {

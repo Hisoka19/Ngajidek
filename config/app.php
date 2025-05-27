@@ -167,6 +167,8 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\Filament\AdminPanelProvider::class,
+        App\Providers\Filament\PengajarPanelProvider::class,
+        App\Providers\Filament\SiswaPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
     ])->toArray(),
 

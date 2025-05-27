@@ -39,21 +39,24 @@ class User extends Authenticatable implements FilamentUser
     }
 
     // Pastikan hanya user dengan role 'admin' atau 'pengajar' bisa akses Filament
-public function canAccessPanel(Panel $panel): bool
-{
-    \Log::info('Panel ID: ' . $panel->getId());
-    \Log::info('User: ', ['id' => $this->id, 'email' => $this->email, 'roles' => $this->getRoleNames()]);
+    public function canAccessPanel(Panel $panel): bool
+    {
+        \Log::info('Panel ID: ' . $panel->getId());
+        \Log::info('User: ', ['id' => $this->id, 'email' => $this->email, 'roles' => $this->getRoleNames()]);
 
-    $canAccess = match ($panel->getId()) {
-        'admin' => $this->hasRole('admin', 'web'),
-        'pengajar' => $this->hasRole('pengajar', 'pengajar'),
-        default => false,
-    };
+        $canAccess = match ($panel->getId()) {
+        'admin' => $this->hasRole('admin'),
+        'pengajar' => $this->hasRole('pengajar'),
+        'siswa' => $this->hasRole('siswa'),
+            default => false,
+        };
 
-    \Log::info('Can Access Panel: ' . ($canAccess ? 'Yes' : 'No'));
+        \Log::info('Can Access Panel: ' . ($canAccess ? 'Yes' : 'No'));
 
-    return $canAccess;
-}
-
-
+        return $canAccess;
+    }
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class);
+    }
 }

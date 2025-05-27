@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<x-filament::page>
 <div class="container mx-auto px-4 py-6">
     <h2 class="text-2xl font-bold mb-4">Kelas Saya</h2>
 
@@ -36,4 +37,5 @@
         </div>
     @endif
 </div>
+<x-filament::page>
 @endsection

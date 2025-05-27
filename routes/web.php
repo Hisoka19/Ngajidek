@@ -21,14 +21,19 @@ use App\Http\Controllers\{
 
 // 🏠 Landing Page & Test Route
 Route::view('/', 'welcome')->name('home');
-Route::get('/test', fn() => auth()->loginUsingId(4) && auth()->user()->hasRole('pengajar')
-    ? 'User adalah pengajar'
-    : 'User bukan pengajar');
+Route::get('/test', function () {
+    auth()->loginUsingId(4);
+
+    return auth()->user()->role === 'pengajar'
+        ? 'User adalah pengajar'
+        : 'User bukan pengajar';
+});
+
 
 // 🔑 Authentication Routes
 Route::middleware('guest')->group(function () {
-    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [LoginController::class, 'login']);
+   Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+   // Route::post('/login', [LoginController::class, 'login']);
     Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
     Route::post('/register', [RegisterController::class, 'register']);
 });
@@ -39,15 +44,12 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 // =============================================
 // 🔐 ADMIN & PENGAJAR DASHBOARD (FILAMENT)
 // =============================================
-// Note: Filament akan menangani routes untuk:
-// - /admin/*
-// - /pengajar/*
-// Pastikan konfigurasi di PanelProvider sudah benar
-
+// Tidak perlu route manual ke dashboard Filament, akses langsung ke /admin dan /pengajar
+Route::middleware(['auth', 'role:pengajar'])->prefix('pengajar')->name('pengajar.')->group(function () {});
 // =============================================
 // 🎓 SISWA DASHBOARD (TABLER)
 // =============================================
-Route::middleware(['auth', 'verified', 'role:siswa'])->prefix('siswa')->name('siswa.')->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('siswa')->name('siswa.')->group(function () {
     Route::get('/dashboard', [SiswaController::class, 'index'])->name('dashboard');
     // Tambahkan route siswa lainnya di sini
 });
@@ -55,13 +57,14 @@ Route::middleware(['auth', 'verified', 'role:siswa'])->prefix('siswa')->name('si
 // =============================================
 // 🎓 PENGAJAR CUSTOM ROUTES (DILUAR FILAMENT)
 // =============================================
-Route::middleware(['auth', 'verified', 'role:pengajar'])->prefix('pengajar')->name('pengajar.')->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('pengajar')->name('pengajar.')->group(function () {
+
+
     // Route khusus pengajar di luar Filament
     Route::get('/zoom', [ZoomController::class, 'index'])->name('zoom.index');
     Route::post('/zoom', [ZoomController::class, 'createMeeting'])->name('zoom.create');
-
-    // Jika perlu tambahan route manual untuk pengajar
     Route::get('/profile', [PengajarController::class, 'profile'])->name('profile');
+    // Jika perlu, tambahkan route custom lain di sini
 });
 
 // =============================================
@@ -93,23 +96,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/courses', [CourseController::class, 'index'])->name('courses');
 });
 
-// routes/web.php
-Route::middleware(['auth', 'role:pengajar'])->prefix('pengajar')->name('pengajar.')->group(function () {
-    Route::get('/dashboard', function () {
-        return redirect()->route('filament.pengajar.pages.dashboard'); // Pastikan route ini ada
-    })->name('dashboard');
+// =============================================
+// NOTE: Tidak perlu route manual dashboard ke Filament, cukup akses /admin, /pengajar, /siswa
+// =============================================
 
-    // Tambahkan route lainnya sesuai kebutuhan
-});
-
-
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return redirect()->route('filament.admin.pages.dashboard'); // Arahkan ke dashboard Filament
-    })->name('dashboard');
-});
-
-
-
-
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

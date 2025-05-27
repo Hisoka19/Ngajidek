@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use Filament\Facades\Filament;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -16,7 +17,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->authGuard('web') // Pastikan ini sesuai dengan guard yang digunakan
+            ->authGuard('web')
             ->darkMode(true)
             ->colors([
                 'primary' => Color::Amber,
@@ -24,10 +25,9 @@ class AdminPanelProvider extends PanelProvider
             ->resources([
                 SiswaResource::class,
                 PengajarResource::class,
-                // Tambahkan resource lainnya jika perlu
             ])
             ->pages([
-                \App\Filament\Admin\Pages\Dashboard::class, // Pastikan class ini ada
+                \App\Filament\Admin\Pages\Dashboard::class,
             ])
             ->navigationGroups([
                 \Filament\Navigation\NavigationGroup::make()
@@ -36,7 +36,6 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 \Filament\Http\Middleware\Authenticate::class . ':web',
-                \Spatie\Permission\Middleware\RoleMiddleware::class . ':admin',
             ])
             ->middleware([
                 \Illuminate\Cookie\Middleware\EncryptCookies::class,
@@ -47,5 +46,6 @@ class AdminPanelProvider extends PanelProvider
                 \Filament\Http\Middleware\DisableBladeIconComponents::class,
                 \Filament\Http\Middleware\DispatchServingFilamentEvent::class,
             ]);
+            //->canAccess(fn () => auth()->check() && auth()->user()->hasRole('admin'));
     }
 }

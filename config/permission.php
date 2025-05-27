@@ -15,6 +15,8 @@ return [
 
         'permission' => Spatie\Permission\Models\Permission::class,
 
+
+
         /*
          * When using the "HasRoles" trait from this package, we need to know which
          * Eloquent model should be used to retrieve your roles. Of course, it
@@ -198,5 +200,7 @@ return [
          */
 
         'store' => 'default',
+
+        'default_guard_name' => 'web',
     ],
 ];
